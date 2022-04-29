@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Purchase {
+  id             Int         @id @default(autoincrement())
+  total          Float       @default(0)
+  data_criacao   DateTime    @default(now())
+  data_finalizacao DateTime?
+  tipo_pagamento TypePayment?
+  status         Status      @default(em_andamento)
+
+  ListProducts ListProducts[]
+  @@map("compra")
+}
+
+model ListProducts {
+  id_compra Int 
+  compra Purchase @relation(fields: [id_compra], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_produto Int
+  produto Product @relation(fields: [id_produto], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quantidade Int @default(1) 
+  valor Float
+
+  @@id([id_compra, id_produto])
+  @@map("lista_de_produtos")
+}
+
+model Product {
+  id               Int      @id @default(autoincrement())
+  nome             String
+  descricao        String
+  preco            Float
+  quantidade       Int      @default(1)
+  data_criacao     DateTime @default(now())
+  data_atualizacao DateTime @updatedAt
+
+  ListProducts ListProducts[]
+  @@map("produto")
+}
+
+enum Status {
+  em_andamento
+  finalizada
+}
+
+enum TypePayment {
+  dinheiro
+  debito
+  credito
+}
