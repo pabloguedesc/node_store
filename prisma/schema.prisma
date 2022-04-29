@@ -20,14 +20,14 @@ model Purchase {
 }
 
 model ListProducts {
-  id_compra Int 
+  id_compra Int @id
   compra Purchase @relation(fields: [id_compra], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  id_produto Int
+  id_produto Int @unique
   produto Product @relation(fields: [id_produto], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quantidade Int @default(1) 
   valor Float
 
-  @@id([id_compra, id_produto])
+
   @@map("lista_de_produtos")
 }
 

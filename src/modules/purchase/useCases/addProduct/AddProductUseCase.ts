@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/middlewares/ErrorMiddleware";
+import { AddProductValidations } from "../../../../utils/Validations/purchase/AddProductValidations";
 import { IProductsRepository } from "../../../product/repositories/IProductsRepository";
 import { IAddProductToList } from "../../interfaces/IAddProdutToList";
 import { IPurchasesRepository } from "../../repositories/IPurchasesRepository";
@@ -21,8 +22,14 @@ export class AddProductUseCase {
       id_produto,
     );
 
-    if (quantidade > product.quantidade) {
-      throw new AppError("Quantidade maior que o estoque disponível");
+    const validations = await AddProductValidations({
+      id_compra,
+      id_produto,
+      quantidade,
+    });
+
+    if (!validations.status) {
+      throw new AppError(validations.message, validations.statusCode);
     }
 
     const value = product.preco * quantidade;

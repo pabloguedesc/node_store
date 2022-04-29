@@ -1,5 +1,6 @@
 import { Purchase } from "@prisma/client";
 import { prismaAgent } from "../../../../shared/database/prismaAgent";
+import { ProductInList } from "../../entities/ProductInList";
 import { IAddProductToList } from "../../interfaces/IAddProdutToList";
 import { IPurchasesRepository } from "../IPurchasesRepository";
 
@@ -47,5 +48,23 @@ export class PurchasesRepositoryInPrisma implements IPurchasesRepository {
           },
         });
       });
+  }
+
+  async findProductInListByIdProduct(
+    id_produto: number,
+  ): Promise<ProductInList> {
+    return prismaAgent.listProducts.findUnique({
+      where: {
+        id_produto,
+      },
+    });
+  }
+
+  async findPurchaseById(id_compra: number): Promise<Purchase> {
+    return prismaAgent.purchase.findUnique({
+      where: {
+        id: id_compra,
+      },
+    });
   }
 }
