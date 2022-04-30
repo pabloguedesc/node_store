@@ -1,63 +1,30 @@
-import { Purchase } from "@prisma/client";
 import { prismaAgent } from "../../../../shared/database/prismaAgent";
-import { ProductInList } from "../../entities/ProductInList";
-import { IAddProductToList } from "../../interfaces/IAddProdutToList";
+import { Purchase } from "../../entities/Purchase";
+import { ICreatePurchaseRequest } from "../../interfaces/ICreatePurchaseRequest";
+import { IEditPurchase } from "../../interfaces/IEditPurchase";
 import { IPurchasesRepository } from "../IPurchasesRepository";
 
 export class PurchasesRepositoryInPrisma implements IPurchasesRepository {
-  async createPurchase(): Promise<Purchase> {
-    const purchase = await prismaAgent.purchase.create({
+  async createPurchase({
+    produtos,
+    tipo_pagamento,
+    total,
+  }: ICreatePurchaseRequest): Promise<void> {
+    await prismaAgent.purchase.create({
       data: {
-        status: "em_andamento",
-      },
-    });
-    return purchase;
-  }
-
-  async addProductToList({
-    id_compra,
-    id_produto,
-    quantidade,
-    valor,
-    quantidadeEmEstoque,
-  }: IAddProductToList) {
-    await prismaAgent.listProducts
-      .create({
-        data: {
-          compra: {
-            connect: {
-              id: id_compra,
-            },
+        total,
+        tipo_pagamento,
+        ListProducts: {
+          createMany: {
+            data: produtos,
           },
-          produto: {
-            connect: {
-              id: id_produto,
-            },
-          },
-          quantidade,
-          valor,
         },
-      })
-      .then(async () => {
-        await prismaAgent.product.update({
-          where: {
-            id: id_produto,
-          },
-          data: {
-            quantidade: quantidadeEmEstoque,
-          },
-        });
-      });
-  }
-
-  async findProductInListByIdProduct(
-    id_produto: number,
-  ): Promise<ProductInList> {
-    return prismaAgent.listProducts.findUnique({
-      where: {
-        id_produto,
       },
     });
+  }
+
+  async listAllPurchases(): Promise<Purchase[]> {
+    return prismaAgent.purchase.findMany();
   }
 
   async findPurchaseById(id_compra: number): Promise<Purchase> {
@@ -65,10 +32,52 @@ export class PurchasesRepositoryInPrisma implements IPurchasesRepository {
       where: {
         id: id_compra,
       },
+      include: {
+        ListProducts: {
+          select: {
+            id_produto: true,
+            preco: true,
+            quantidade: true,
+            produto: {
+              select: {
+                nome: true,
+                descricao: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 
-  async listAllPurchases(): Promise<Purchase[]> {
-    return prismaAgent.purchase.findMany();
+  async deletePurchaseById(id_compra: number): Promise<void> {
+    await prismaAgent.purchase.delete({
+      where: {
+        id: id_compra,
+      },
+    });
+  }
+
+  async finalizePurchase(id_compra: number): Promise<void> {
+    await prismaAgent.purchase.update({
+      where: {
+        id: id_compra,
+      },
+      data: {
+        status: "finalizada",
+      },
+    });
+  }
+
+  async editPurchase({
+    id_compra,
+    tipo_pagamento,
+  }: IEditPurchase): Promise<void> {
+    await prismaAgent.purchase.update({
+      where: { id: id_compra },
+      data: {
+        tipo_pagamento,
+      },
+    });
   }
 }

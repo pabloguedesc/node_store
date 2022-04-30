@@ -4,7 +4,7 @@ import { CreateProductUseCase } from "./CreateProductUseCase";
 
 class CreateProductController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { nome, descricao, preco, quantidade } = request.body;
+    const { nome, descricao, preco } = request.body;
 
     const createProductUseCase = container.resolve(CreateProductUseCase);
 
@@ -12,7 +12,6 @@ class CreateProductController {
       descricao,
       nome,
       preco,
-      quantidade,
     });
 
     return response.status(201).json({ message: "Criado" });

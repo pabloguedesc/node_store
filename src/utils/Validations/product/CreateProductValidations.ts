@@ -5,7 +5,6 @@ export async function CreateProductValidations({
   descricao,
   nome,
   preco,
-  quantidade,
 }: ICreateProduct): Promise<IResponseValidation> {
   if (!descricao) {
     return { status: false, message: "'descricao' é obrigatória" };
@@ -24,12 +23,6 @@ export async function CreateProductValidations({
   }
   if (preco < 0.1) {
     return { status: false, message: "'preco' não pode ser inferior a 0.1" };
-  }
-  if (!quantidade) {
-    return { status: false, message: "'quantidade' é obrigatória" };
-  }
-  if (typeof quantidade !== "number") {
-    return { status: false, message: "'quantidade' deve ser do tipo 'number'" };
   }
 
   return { status: true };

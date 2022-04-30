@@ -9,14 +9,12 @@ export class ProductsRepositoryInPrisma implements IProductsRepository {
     descricao,
     nome,
     preco,
-    quantidade,
   }: ICreateProduct): Promise<void> {
     await prismaAgent.product.create({
       data: {
         nome,
         descricao,
         preco,
-        quantidade,
       },
     });
   }

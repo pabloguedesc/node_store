@@ -9,9 +9,8 @@ datasource db {
 
 model Purchase {
   id             Int         @id @default(autoincrement())
-  total          Float       @default(0)
+  total          Float       
   data_criacao   DateTime    @default(now())
-  data_finalizacao DateTime?
   tipo_pagamento TypePayment?
   status         Status      @default(em_andamento)
 
@@ -20,14 +19,15 @@ model Purchase {
 }
 
 model ListProducts {
-  id_compra Int @id
+  id_compra Int 
   compra Purchase @relation(fields: [id_compra], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  id_produto Int @unique
+  id_produto Int 
   produto Product @relation(fields: [id_produto], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  preco Float
   quantidade Int @default(1) 
-  valor Float
+  data_criacao DateTime @default(now())
 
-
+  @@id([id_compra, id_produto])
   @@map("lista_de_produtos")
 }
 
@@ -36,7 +36,6 @@ model Product {
   nome             String
   descricao        String
   preco            Float
-  quantidade       Int      @default(1)
   data_criacao     DateTime @default(now())
   data_atualizacao DateTime @updatedAt
 

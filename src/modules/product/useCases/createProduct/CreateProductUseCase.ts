@@ -10,12 +10,11 @@ export class CreateProductUseCase {
     @inject("ProductsRepositoryInPrisma")
     private productsRepositoryInPrisma: IProductsRepository,
   ) {}
-  async execute({ descricao, nome, preco, quantidade }: ICreateProduct) {
+  async execute({ descricao, nome, preco }: ICreateProduct) {
     const validations = await CreateProductValidations({
       descricao,
       nome,
       preco,
-      quantidade,
     });
 
     if (!validations.status) {
@@ -26,7 +25,6 @@ export class CreateProductUseCase {
       descricao,
       nome,
       preco,
-      quantidade,
     });
   }
 }

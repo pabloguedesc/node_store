@@ -4,17 +4,15 @@ import { Purchase } from "../../entities/Purchase";
 import { IPurchasesRepository } from "../../repositories/IPurchasesRepository";
 
 @injectable()
-export class ListAllPurchasesUseCase {
+export class ListPurchasesUseCase {
   constructor(
     @inject("PurchasesRepositoryInPrisma")
     private purchasesRepositoryInPrisma: IPurchasesRepository,
   ) {}
+
   async execute(): Promise<Purchase[]> {
     try {
-      const allPurchases =
-        await this.purchasesRepositoryInPrisma.listAllPurchases();
-
-      return allPurchases;
+      return this.purchasesRepositoryInPrisma.listAllPurchases();
     } catch (error) {
       throw new AppError(error);
     }

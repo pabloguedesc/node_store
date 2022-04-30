@@ -3,7 +3,7 @@ CREATE TABLE `compra` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `total` DOUBLE NOT NULL,
     `data_criacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `tipo_pagamento` ENUM('dinheiro', 'debito', 'credito') NOT NULL,
+    `tipo_pagamento` ENUM('dinheiro', 'debito', 'credito') NULL,
     `status` ENUM('em_andamento', 'finalizada') NOT NULL DEFAULT 'em_andamento',
 
     PRIMARY KEY (`id`)
@@ -13,7 +13,8 @@ CREATE TABLE `compra` (
 CREATE TABLE `lista_de_produtos` (
     `id_compra` INTEGER NOT NULL,
     `id_produto` INTEGER NOT NULL,
-    `unidade` INTEGER NOT NULL DEFAULT 1,
+    `quantidade` INTEGER NOT NULL DEFAULT 1,
+    `data_criacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id_compra`, `id_produto`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

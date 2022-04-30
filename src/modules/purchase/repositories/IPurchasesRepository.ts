@@ -1,11 +1,12 @@
-import { ProductInList } from "../entities/ProductInList";
 import { Purchase } from "../entities/Purchase";
-import { IAddProductToList } from "../interfaces/IAddProdutToList";
+import { ICreatePurchaseRequest } from "../interfaces/ICreatePurchaseRequest";
+import { IEditPurchase } from "../interfaces/IEditPurchase";
 
 export interface IPurchasesRepository {
-  createPurchase(): Promise<Purchase>;
-  addProductToList(data: IAddProductToList);
-  findProductInListByIdProduct(id_produto: number): Promise<ProductInList>;
-  findPurchaseById(id_compra: number): Promise<Purchase>;
+  createPurchase(data: ICreatePurchaseRequest): Promise<void>;
   listAllPurchases(): Promise<Purchase[]>;
+  findPurchaseById(id_compra: number): Promise<Purchase>;
+  deletePurchaseById(id_compra: number): Promise<void>;
+  finalizePurchase(id_compra: number): Promise<void>;
+  editPurchase(data: IEditPurchase): Promise<void>;
 }
