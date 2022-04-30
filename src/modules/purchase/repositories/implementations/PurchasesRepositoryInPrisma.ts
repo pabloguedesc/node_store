@@ -67,4 +67,8 @@ export class PurchasesRepositoryInPrisma implements IPurchasesRepository {
       },
     });
   }
+
+  async listAllPurchases(): Promise<Purchase[]> {
+    return prismaAgent.purchase.findMany();
+  }
 }
