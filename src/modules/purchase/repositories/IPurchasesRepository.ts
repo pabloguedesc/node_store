@@ -1,5 +1,5 @@
-import { Purchase } from "@prisma/client";
 import { ProductInList } from "../entities/ProductInList";
+import { Purchase } from "../entities/Purchase";
 import { IAddProductToList } from "../interfaces/IAddProdutToList";
 
 export interface IPurchasesRepository {

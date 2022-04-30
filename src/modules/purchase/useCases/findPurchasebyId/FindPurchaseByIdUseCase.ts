@@ -1,15 +1,17 @@
 import { inject, injectable } from "tsyringe";
-import { Purchase } from "../../entities/Purchase";
 import { IPurchasesRepository } from "../../repositories/IPurchasesRepository";
 
 @injectable()
-export class CreatePurchaseUseCase {
+export class FindPurchaseByIdUseCase {
   constructor(
     @inject("PurchasesRepositoryInPrisma")
     private purchasesRepositoryInPrisma: IPurchasesRepository,
   ) {}
-  async execute(): Promise<Purchase> {
-    const purchase = await this.purchasesRepositoryInPrisma.createPurchase();
+  async execute(id_compra: number) {
+    const purchase = await this.purchasesRepositoryInPrisma.findPurchaseById(
+      id_compra,
+    );
+
     return purchase;
   }
 }
