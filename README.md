@@ -1,6 +1,6 @@
 ## NodeStore 
   Sistema de compra de produtos desenvolvido em ReactJS e TypeScript
-  
+
 ### Requisitos para utilização do sistema
   - Node
   - Docker 
@@ -21,8 +21,7 @@
 
 ### 4. Copiar os conteúdo do arquivo ".env.example" localizado na raiz do projeto e colar no arquivo ".env" criado na etapa anterior.
 
-### 5. Rodar o comando abaixo para realizar as migrações para o banco de dados que
-   foi criado na etapa "2".
+### 5. Rodar o comando abaixo para realizar as migrações para o banco de dados que foi criado na etapa "2".
   ```npx prisma migrate dev```
 	ou
   ```yarn prisma migrate dev```
