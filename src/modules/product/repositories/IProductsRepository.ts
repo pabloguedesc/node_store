@@ -8,4 +8,5 @@ export interface IProductsRepository {
   findProductById(id_product: number): Promise<Product>;
   deleteProductById(id_product: number): Promise<void>;
   editProduct(data: IEditProduct): Promise<void>;
+  findProductByName(nome: string): Promise<Product>;
 }

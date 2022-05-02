@@ -20,7 +20,11 @@ export class ProductsRepositoryInPrisma implements IProductsRepository {
   }
 
   async listProducts(): Promise<Product[]> {
-    const allProducts = await prismaAgent.product.findMany();
+    const allProducts = await prismaAgent.product.findMany({
+      orderBy: {
+        id: "desc",
+      },
+    });
     return allProducts;
   }
 
@@ -48,6 +52,14 @@ export class ProductsRepositoryInPrisma implements IProductsRepository {
         nome,
         descricao,
         preco,
+      },
+    });
+  }
+
+  async findProductByName(nome: string): Promise<Product> {
+    return prismaAgent.product.findFirst({
+      where: {
+        nome,
       },
     });
   }

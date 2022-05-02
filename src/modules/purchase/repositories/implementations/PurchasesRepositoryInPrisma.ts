@@ -24,7 +24,11 @@ export class PurchasesRepositoryInPrisma implements IPurchasesRepository {
   }
 
   async listAllPurchases(): Promise<Purchase[]> {
-    return prismaAgent.purchase.findMany();
+    return prismaAgent.purchase.findMany({
+      orderBy: {
+        id: "desc",
+      },
+    });
   }
 
   async findPurchaseById(id_compra: number): Promise<Purchase> {

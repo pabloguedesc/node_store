@@ -13,6 +13,7 @@ CREATE TABLE `compra` (
 CREATE TABLE `lista_de_produtos` (
     `id_compra` INTEGER NOT NULL,
     `id_produto` INTEGER NOT NULL,
+    `preco` DOUBLE NOT NULL,
     `quantidade` INTEGER NOT NULL DEFAULT 1,
     `data_criacao` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
