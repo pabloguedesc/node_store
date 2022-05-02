@@ -15,12 +15,14 @@ export class CreatePurchaseUseCase {
     produtos,
     total,
   }: ICreatePurchaseRequest): Promise<void> {
+    // função para validação de erros na requisição
     const validations = await CreatePurchaseValidations({
       produtos,
       tipo_pagamento,
       total,
     });
 
+    // verificação de status da validação: "true" = sem erros / "false" = "erro"
     if (!validations.status) {
       throw new AppError(validations.message, validations.statusCode);
     }

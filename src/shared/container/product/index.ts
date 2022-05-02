@@ -6,3 +6,5 @@ container.registerSingleton<IProductsRepository>(
   "ProductsRepositoryInPrisma",
   ProductsRepositoryInPrisma,
 );
+
+// criando a injeção de depedência para repositório de produtos
